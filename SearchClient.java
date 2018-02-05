@@ -10,6 +10,11 @@ import searchclient.Strategy.*;
 import searchclient.Heuristic.*;
 
 public class SearchClient {
+	//Modifying code to fetch maxrow and maxcolumn for Node class
+	private static int maxCol = 0;
+	private static int maxRow = 0;
+	
+	
 	public Node initialState;
 
 	public SearchClient(BufferedReader serverMessages) throws Exception {
@@ -26,6 +31,11 @@ public class SearchClient {
 
 		while (!line.equals("")) {
 			for (int col = 0; col < line.length(); col++) {
+				// Maybe there is a better way to do this...
+				if(col > maxCol) {
+					maxCol = col;
+				}
+				
 				char chr = line.charAt(col);
 
 				if (chr == '+') { // Wall.
@@ -52,9 +62,14 @@ public class SearchClient {
 			line = serverMessages.readLine();
 			row++;
 		}
-		//System.out.println(this.initialState.toString());
+		maxCol--; // 
+		maxRow = row;
+		System.err.println("DEBUG: max col is detected to be: " + maxCol);
+		System.err.println("DEBUG: max row is detected to be: " + maxRow);
+		Node.MAX_COL = maxCol; // changes here
+		Node.MAX_ROW = maxRow;
 	}
-
+	
 	public LinkedList<Node> Search(Strategy strategy) throws IOException {
 		System.err.format("Search starting with strategy %s.\n", strategy.toString());
 		strategy.addToFrontier(this.initialState);
