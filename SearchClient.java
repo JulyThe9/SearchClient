@@ -26,15 +26,17 @@ public class SearchClient {
 		}
 
 		int row = 0;
+		int maxCol = 0;
+		int curCol = 0;
+		
 		boolean agentFound = false;
 		this.initialState = new Node(null);
 
 		while (!line.equals("")) {
 			for (int col = 0; col < line.length(); col++) {
 				// Maybe there is a better way to do this...
-				if(col > maxCol) {
-					maxCol = col;
-				}
+				curCol = col;
+
 				
 				char chr = line.charAt(col);
 
@@ -59,10 +61,15 @@ public class SearchClient {
 					System.exit(1);
 				}
 			}
+			System.err.println("DEBUG: max col is NOW: " + curCol);
+			if(curCol > maxCol) {
+					maxCol = curCol;
+					
+				}
 			line = serverMessages.readLine();
 			row++;
 		}
-		maxCol--; // 
+		maxCol++; // because indices start from 0...
 		maxRow = row;
 		System.err.println("DEBUG: max col is detected to be: " + maxCol);
 		System.err.println("DEBUG: max row is detected to be: " + maxRow);
@@ -91,6 +98,7 @@ public class SearchClient {
 		Node.goals = goalsTemp;
 		
 	}
+
 	
 	public LinkedList<Node> Search(Strategy strategy) throws IOException {
 		System.err.format("Search starting with strategy %s.\n", strategy.toString());
