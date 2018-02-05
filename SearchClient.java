@@ -68,6 +68,28 @@ public class SearchClient {
 		System.err.println("DEBUG: max row is detected to be: " + maxRow);
 		Node.MAX_COL = maxCol; // changes here
 		Node.MAX_ROW = maxRow;
+		
+		//public static boolean[][] walls = new boolean[MAX_ROW][MAX_COL];
+		//public char[][] boxes = new char[MAX_ROW][MAX_COL];
+		//public static char[][] goals = new char[MAX_ROW][MAX_COL];
+		
+		// Resizing arrays to dimensions of maxRow and maxCol
+		
+		boolean[][] wallsTemp = new boolean[maxRow][maxCol];
+		char[][] boxesTemp = new char[maxRow][maxCol];
+		char[][] goalsTemp = new char[maxRow][maxCol];
+		
+		for (int i =0; i<maxRow; i++){
+			for (int j=0; j<maxCol; j++){
+				wallsTemp[i][j] = Node.walls[i][j];
+				boxesTemp[i][j] = Node.boxes[i][j];
+				goalsTemp[i][j] = Node.goals[i][j];
+			}
+		}
+		Node.walls = wallsTemp;
+		Node.boxes = boxesTemp;
+		Node.goals = goalsTemp;
+		
 	}
 	
 	public LinkedList<Node> Search(Strategy strategy) throws IOException {
