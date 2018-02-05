@@ -76,18 +76,18 @@ public class SearchClient {
 		// Resizing arrays to dimensions of maxRow and maxCol
 		
 		boolean[][] wallsTemp = new boolean[maxRow][maxCol];
-		char[][] boxesTemp = new char[maxRow][maxCol];
+		//char[][] boxesTemp = new char[maxRow][maxCol];
 		char[][] goalsTemp = new char[maxRow][maxCol];
 		
 		for (int i =0; i<maxRow; i++){
 			for (int j=0; j<maxCol; j++){
 				wallsTemp[i][j] = Node.walls[i][j];
-				boxesTemp[i][j] = Node.boxes[i][j];
+				//boxesTemp[i][j] = Node.boxes[i][j];
 				goalsTemp[i][j] = Node.goals[i][j];
 			}
 		}
 		Node.walls = wallsTemp;
-		Node.boxes = boxesTemp;
+		//Node.boxes = boxesTemp;
 		Node.goals = goalsTemp;
 		
 	}
