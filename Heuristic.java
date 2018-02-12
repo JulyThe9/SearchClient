@@ -16,28 +16,34 @@ public abstract class Heuristic implements Comparator<Node> {
     }
 
     public int h(Node n) {
-       // throw new NotImplementedException();
-        int res = 0;
-        for (int i=0; i<n.boxes.length; i++){
+       int res = 0;
+       int prevBoxI = 0;
+       int prevBoxJ = 0;
+       boolean trig = false;
+       int distBetwBoxes = 0;
+         for (int i=0; i<n.boxes.length; i++){
             for (int j=0; j<n.boxes[0].length; j++){
-                if (n.boxes[i][j] != '\u0000'){
-				
+                if (n.boxes[i][j] != '\u0000'){		
+		    if (trig == false) trig = true;
+		    else {
+		    	distBetwBoxes = distBetwBoxes + manhDist(prevBoxI, prevBoxJ, i, j);
+		    }					
+		    prevBoxI = i;
+		    prevBoxJ = j;									
                     char matchingGoal = Character.toLowerCase(n.boxes[i][j]);
-
-                    int distToClosestGoal = 9999;
+                    short distToClosestGoal = 9999;
                     for (int k=0; k<goalsOnly.size(); k++){
                         if (matchingGoal == goalsOnly.get(k).val){
-                            int distToCurGoal = manhDist(i,j,goalsOnly.get(k).i, goalsOnly.get(k).j);
+                            short distToCurGoal = manhDist(i,j,goalsOnly.get(k).i, goalsOnly.get(k).j);
                             if (distToCurGoal < distToClosestGoal) distToClosestGoal = distToCurGoal;
                         }
                     }
-					System.err.println("DEBUG: do we get here?: " + distToClosestGoal);
-                    res = res + distToClosestGoal;
+					//System.err.println("DEBUG: do we get here?: " + distToClosestGoal);		
+                     res = res + ((int)distToClosestGoal);//*((int)distToClosestGoal);								 
                 }
             }
-        }
-        return res;
-		//return 1;
+        } 
+	return 5*res + distBetwBoxes;
     }
 
     public int manhDist(int i1, int j1, int i2, int j2){ // between cells of a map, not between state nodes
